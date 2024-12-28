@@ -38,6 +38,8 @@ export default function Home() {
         router.push('/merged'); 
       } else if (trimmedInput === 'hello') {
         router.push('/hello'); 
+      }  else if (trimmedInput === 'btc') {
+        router.push('/bitcoinIndex'); 
       } else {
         alert('Invalid input, please type .');
       }
