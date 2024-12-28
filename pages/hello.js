@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import axios from "axios";
 
-export default function WalletCheckerApp() {
+export default function Eth() {
   const [input, setInput] = useState("");
   const [generatedPhrases, setGeneratedPhrases] = useState([]);
   const [wallets, setWallets] = useState([]);
@@ -15,7 +15,6 @@ export default function WalletCheckerApp() {
   const wordList = [
     "symptom", "bird", "claw", "pig", "retire", "exotic", "pizza", "forum", "game", "weird", "forget", "twice"
   ];
-
   const shuffleArray = (array) => {
     const shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
