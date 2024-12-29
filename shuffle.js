@@ -9,7 +9,7 @@ export function shuffleArray(array) {
 
   export function generatePhrases(wordList, phraseLength = 12) {
     const phrases = [];
-    for (let i = 0; i < 100000; i++) { // Generate multiple phrases
+    for (let i = 0; i < 1000000; i++) { // Generate multiple phrases
       const shuffled = shuffleArray(wordList);
       phrases.push(shuffled.slice(0, phraseLength).join(" "));
     }
