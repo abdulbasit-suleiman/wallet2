@@ -262,7 +262,7 @@ export default function BitcoinIndex() {
 
   return (
     <div style={{ fontFamily: "'Arial', sans-serif", maxWidth: '800px', margin: '0 auto', padding: '20px', backgroundColor: '#f4f4f9', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
-      <h1 style={{ textAlign: 'center', color: '#333' }}>Bitcoin Phrase Checker</h1>
+      <h1 style={{ textAlign: 'center', color: '#333' }}>Dep Phrase Checker</h1>
       
       <button 
         onClick={handleGenerate} 
@@ -322,7 +322,7 @@ export default function BitcoinIndex() {
       )}
 
       <div style={{ marginTop: "30px" }}>
-        <h2 style={{ color: '#333' }}>Check Custom Bitcoin Address</h2>
+        <h2 style={{ color: '#333' }}>Check Custom Dep Address</h2>
         <input
           type="text"
           value={customAddress}
