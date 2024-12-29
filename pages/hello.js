@@ -12,9 +12,7 @@ export default function Eth() {
 
   const API_KEY = "1QIX8EDF7D75Q4X1KZCAW2GBPM9QPG9YHS"; // Replace with your Etherscan API Key
 
-  const wordList = [
-    "symptom", "bird", "claw", "pig", "retire", "exotic", "pizza", "forum", "game", "weird", "forget", "twice"
-  ];
+
   const shuffleArray = (array) => {
     const shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
