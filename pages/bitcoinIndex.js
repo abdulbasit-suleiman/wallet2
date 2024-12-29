@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { generatePhrases } from "../shuffle";
-import { generateBitcoinAddress, checkBitcoinAddress } from "../bitcoin";
+import { useState } from 'react';
+import { generatePhrases } from '../shuffle';  // Function to generate shuffled phrases
+import { generateBitcoinAddress, checkBitcoinAddress } from '../bitcoin';  // Bitcoin address related functions
 
 const wordList = [
   "abandon", "ability", "able", "about", "above", "absent", "absorb", "abstract", 
@@ -198,164 +198,168 @@ const wordList = [
 export default function BitcoinIndex() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [checkedPhrases, setCheckedPhrases] = useState([]);
-  const [customAddress, setCustomAddress] = useState("");
-  const [customResult, setCustomResult] = useState(null);
+  const [checkedPhrases, setCheckedPhrases] = useState([]);  // Track checked phrases and their status
+  const [customAddress, setCustomAddress] = useState("");  // For user input address
+  const [customResult, setCustomResult] = useState(null);  // Result for custom address check
 
   const handleGenerate = async () => {
     setLoading(true);
     setResult(null);
-    setCheckedPhrases([]);
-    console.log("Starting phrase generation...");
+    setCheckedPhrases([]);  // Reset checked phrases list on new generation
   
     try {
-      const phrases = generatePhrases(wordList);
-      console.log("Generated phrases:", phrases);
-  
-      let foundValid = false; // Track if a valid address is found
+      const phrases = generatePhrases(wordList);  // Generate shuffled phrases
   
       for (const phrase of phrases) {
         try {
+          // Step 3: Generate Bitcoin address for the phrase
           const address = generateBitcoinAddress(phrase);
-          console.log("Generated address for phrase:", phrase, address);
   
+          // Step 4: Check if the generated address has any transactions or funds
           const hasTransactions = await checkBitcoinAddress(address);
-          console.log("Checked address transactions:", address, hasTransactions);
   
+          // Step 5: If a valid address is found with funds or transactions, display it
           if (hasTransactions) {
-            alert(`Valid wallet found!\nPhrase: ${phrase}\nAddress: ${address}`);
-  
+            // If valid, store it in checkedPhrases
             const phraseStatus = { phrase, address, valid: true };
             setCheckedPhrases((prev) => [...prev, phraseStatus]);
+  
+            // Alert before updating state
+            alert(`Valid wallet with funds or transactions found!\nPhrase: ${phrase}\nAddress: ${address}`);
+            
+            // Update result with both phrase and address after alert
             setResult({ phrase, address });
-  
-            console.log("Found valid address and phrase:", phraseStatus);
-  
-            foundValid = true; // Mark as found
-            break; // Stop after finding the first valid address
-          } else {
-            const phraseStatus = { phrase, address, valid: false };
-            setCheckedPhrases((prev) => [...prev, phraseStatus]);
-            console.log("Checked phrase with no transactions:", phraseStatus);
+            break;  // Stop after finding the first valid address
           }
         } catch (innerError) {
-          console.error("Error processing phrase:", phrase, innerError.message);
+          // Ignore invalid phrases silently (i.e., no valid address generated)
         }
-      }
-  
-      // If no valid address was found, alert the user
-      if (!foundValid) {
-        alert("Checked 100,000 phrases. No valid wallet found.");
       }
     } catch (error) {
       console.error("Error in handleGenerate:", error.message);
     } finally {
       setLoading(false);
     }
-  };
-  
+  };  
+
   const handleCustomAddressCheck = async () => {
     setLoading(true);
-    setCustomResult(null);
+    setCustomResult(null);  // Reset custom result
 
     try {
       const hasTransactions = await checkBitcoinAddress(customAddress);
-      setCustomResult(
-        hasTransactions
-          ? "The address has had transactions or funds."
-          : "The address has not had any transactions or funds."
-      );
+
+      if (hasTransactions) {
+        setCustomResult(`The address has had transactions or funds.`);
+      } else {
+        setCustomResult(`The address has not had any transactions or funds.`);
+      }
     } catch (error) {
-      setCustomResult("Error checking the address.");
+      setCustomResult(`Error checking the address.`);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div style={{ fontFamily: "'Arial', sans-serif", maxWidth: "800px", margin: "0 auto", padding: "20px", backgroundColor: "#f4f4f9", borderRadius: "8px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}>
-      <h1 style={{ textAlign: "center", color: "#333" }}>Dep Phrase Checker</h1>
-
-      <button
-        onClick={handleGenerate}
-        disabled={loading}
+    <div style={{ fontFamily: "'Arial', sans-serif", maxWidth: '800px', margin: '0 auto', padding: '20px', backgroundColor: '#f4f4f9', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+      <h1 style={{ textAlign: 'center', color: '#333' }}>Dep Phrase Checker</h1>
+      
+      <button 
+        onClick={handleGenerate} 
+        disabled={loading} 
         style={{
-          width: "100%",
-          padding: "10px",
-          backgroundColor: "#28a745",
-          color: "#fff",
-          border: "none",
-          borderRadius: "4px",
-          cursor: "pointer",
-          fontSize: "16px",
-          marginBottom: "20px",
-          transition: "background-color 0.3s",
+          width: '100%',
+          padding: '10px',
+          backgroundColor: '#28a745',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '4px',
+          cursor: 'pointer',
+          fontSize: '16px',
+          marginBottom: '20px',
+          transition: 'background-color 0.3s'
         }}
       >
         {loading ? "Checking..." : "Generate & Check"}
       </button>
 
-      {loading && <p style={{ textAlign: "center", color: "#555" }}>Checking phrases...</p>}
-
-      {!loading && result && (
-        <div style={{ marginTop: "20px", backgroundColor: "#fff", padding: "15px", borderRadius: "4px", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
-          <h2 style={{ color: "#333" }}>Found Valid Address:</h2>
-          <p><strong>Phrase:</strong> {result.phrase}</p>
-          <p><strong>Bitcoin Address:</strong> {result.address}</p>
-        </div>
-      )}
-
-      {!loading && checkedPhrases.length > 0 && (
-        <div style={{ marginTop: "20px" }}>
-          <h3 style={{ color: "#333" }}>Checked Phrases:</h3>
-          <ul style={{ listStyleType: "none", padding: 0 }}>
+      {loading && (
+        <div style={{ marginTop: "20px", textAlign: 'center' }}>
+          <h3 style={{ color: '#555' }}>Checking Phrases...</h3>
+          <ul style={{ listStyleType: 'none', padding: 0 }}>
             {checkedPhrases.map((phraseStatus, index) => (
-              <li key={index} style={{ marginBottom: "5px", color: phraseStatus.valid ? "green" : "red" }}>
-                {phraseStatus.phrase} - {phraseStatus.valid ? "Valid" : "Invalid"}
-              </li>
+              phraseStatus.valid && (
+                <li key={index} style={{ color: 'green', marginBottom: '5px' }}>
+                  {phraseStatus.phrase} - Valid
+                </li>
+              )
             ))}
           </ul>
         </div>
       )}
 
+      {!loading && checkedPhrases.length > 0 && (
+        <div style={{ marginTop: "20px" }}>
+          <h3 style={{ color: '#333' }}>Checked Phrases:</h3>
+          <ul style={{ listStyleType: 'none', padding: 0 }}>
+            {checkedPhrases.map((phraseStatus, index) => (
+              phraseStatus.valid && (
+                <li key={index} style={{ color: 'green', marginBottom: '5px' }}>
+                  {phraseStatus.phrase} - Valid
+                </li>
+              )
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {result && (
+        <div style={{ marginTop: "20px", backgroundColor: '#fff', padding: '15px', borderRadius: '4px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+          <h2 style={{ color: '#333' }}>Found Valid Address:</h2>
+          <p><strong>Phrase:</strong> {result.phrase}</p>
+          <p><strong>Bitcoin Address:</strong> {result.address}</p>
+        </div>
+      )}
+
       <div style={{ marginTop: "30px" }}>
-        <h2 style={{ color: "#333" }}>Check Custom Dep Address</h2>
+        <h2 style={{ color: '#333' }}>Check Custom Dep Address</h2>
         <input
           type="text"
           value={customAddress}
           onChange={(e) => setCustomAddress(e.target.value)}
           placeholder="Enter Bitcoin address"
           style={{
-            width: "100%",
-            padding: "10px",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
-            fontSize: "16px",
-            marginBottom: "10px",
-            boxSizing: "border-box",
+            width: '100%',
+            padding: '10px',
+            border: '1px solid #ccc',
+            borderRadius: '4px',
+            fontSize: '16px',
+            marginBottom: '10px',
+            boxSizing: 'border-box'
           }}
         />
         <button
           onClick={handleCustomAddressCheck}
           disabled={loading}
           style={{
-            width: "100%",
-            padding: "10px",
-            backgroundColor: "#007bff",
-            color: "#fff",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
-            fontSize: "16px",
-            transition: "background-color 0.3s",
+            width: '100%',
+            padding: '10px',
+            backgroundColor: '#007bff',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            transition: 'background-color 0.3s'
           }}
         >
           {loading ? "Checking..." : "Check Address"}
         </button>
 
         {customResult && (
-          <div style={{ marginTop: "20px", padding: "10px", backgroundColor: "#f1f1f1", borderRadius: "4px" }}>
-            <p style={{ color: "#333" }}>{customResult}</p>
+          <div style={{ marginTop: "20px", padding: '10px', backgroundColor: '#f1f1f1', borderRadius: '4px' }}>
+            <p style={{ color: '#333' }}>{customResult}</p>
           </div>
         )}
       </div>
