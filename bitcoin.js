@@ -24,7 +24,7 @@ export function generateBitcoinAddress(phrase) {
     const url = `https://blockstream.info/api/address/${address}`;
     try {
       const response = await axios.get(url);
-      console.log('API Response:', response.data);  // Log the full response for debugging
+      console.log('API Response:', response.data);  
       const { funded_txo_count, total_received } = response.data.chain_stats;
       if (funded_txo_count > 0 || total_received > 0) {
         return true; // Address has transactions or funds
