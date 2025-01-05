@@ -20,12 +20,15 @@ export function generateBitcoinAddress(phrase) {
       throw new Error("Failed to generate Bitcoin address.");
     }
   }
+  
   export async function checkBitcoinAddress(address) {
     const url = `https://blockstream.info/api/address/${address}`;
     try {
       const response = await axios.get(url);
-      console.log('API Response:', response.data);  
       const { funded_txo_count, total_received } = response.data.chain_stats;
+  
+      console.log('API Response:', response.data);  // Check this log to ensure proper API response
+  
       if (funded_txo_count > 0 || total_received > 0) {
         return true; // Address has transactions or funds
       }
@@ -35,4 +38,5 @@ export function generateBitcoinAddress(phrase) {
       return false; // Return false in case of any error
     }
   }
+  
   

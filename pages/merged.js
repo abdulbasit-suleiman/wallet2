@@ -13,32 +13,22 @@ export default function WalletCheckerApp() {
   const API_KEY = "CTTREV5V4SRWBPQHQ8DHQH1H3KI44IN5EV"; // Replace with your Etherscan API Key
 
   const wordList = [
-    "abandon", "ability", "able", "about", "above", "absent", "absorb", "abstract", 
-    "absurd", "abuse" , 
-    "baby", "bachelor", "bacon", "badge", "bag", "balance", "balcony", "ball", 
-    "bamboo", "banana","cabbage", "cabin", "cable", 
-    "cactus", "cage", "cake", "call", "calm", "camera", "camp",
-    "dad", "damage", "damp", "dance", "danger", "daring", "dash", "daughter", "dawn", "day", "eager", "eagle", "early",
-    "earn", "earth", "easily", "east", "easy", "echo", "ecology", "fabric", "face", "faculty", "fade", "faint", "faith", "fall", "false", "fame", "family",
-  "gadget", "gain", "galaxy", "gallery", "game", "gap", "garage", "garbage",
-  "garden", "garlic", "habit", "hair", 
-  "half", "hammer", "hamster", "hand", "happy", "harbor", "hard",  "ice", "icon", "idea", "identify", "idle", "ignore", "ill", "illegal", "illness", "image", 
-  "jacket", "jaguar", "jar", "jazz", "jealous", "jeans", "jelly", "jewel", "job", "join",  "kangaroo", "keen", "keep", "ketchup", "key", "kick", 
-  "kid", "kidney", "kind", "kingdom", "lab", "label", "labor", "ladder", "lady", "lake", 
-  "lamp", "language", "laptop", "large",
-  "machine", "mad", "magic", "magnet", "maid", "mail", "main", "major", "make", "mammal", "naive", "name", "napkin", "narrow", "nasty", "nation", 
-  "nature", "near", "neck", "need", "oak", "obey", "object", "oblige", "obscure", "observe", 
-  "obtain", "obvious", "occur", "ocean",  
-  "pact", "paddle", "page", "pair", "palace", "palm", "panda", "panel", "panic", "panther", 
-  "paper", "quality", "quantum", "quarter", "question", "quick", 
-  "quit", "quiz", "quote", "rabbit", "raccoon", "race", "rack", "radar", "radio", "rail", "rain", 
-  "raise", "rally","sad", "saddle", "sadness", "safe", "sail", "salad", "salmon", "salon", 
-  "salt", "salute", "table", "tackle", "tag", "tail", "talent", "talk", "tank", "tape", "target", "task", "ugly", "umbrella", "unable",
-  "unaware", "uncle", "uncover", "under", "undo", "unfair", "unfold","vacant", "vacuum", "vague", "valid", "valley",
-  "valve", "van", "vanish", "vapor", "various", "vast", "wage", "wagon", "wait", "walk", "wall", "walnut", "want", "warfare",
-  "warm", "warrior","yard", "year", "yellow", "you",
+    "abandon", "ability", "able", "awful", "awkward", "axis", 
+    "baby", "bachelor", "bacon", "butter", "buyer", "buzz", "cabbage", "cabin", "cable", 
+    "custom", "cute", "cycle",
+    "dad", "damage", "damp", "duty", "dwarf", "dynamic", "eager", "eagle", "early", "extra",
+  "eye", "eyebrow", "fabric", "face", "faculty",
+  "furnace", "fury", "future", "gadget", "gain", "galaxy","guitar", "gun", "gym", "habit", "hair", 
+  "half",  "hurt", 
+  "husband", "hybrid", "ice", "icon", "idea",  "issue", "item", "ivory", 
+  "jacket", "jaguar", "jar", "junior", "junk", "just", "kangaroo", "keen", "keep",  "knife", "knock", "know", "lab", "label", "labor",  "lunch", "luxury", "lyrics", 
+  "machine", "mad", "magic", "myself", "mystery", "myth", "naive", "name", "napkin", "number", "nurse", "nut", "oak", "obey", "object", "oxygen", "oyster", "ozone", 
+  "pact", "paddle", "page", "put", "puzzle", "pyramid", "quality", "quantum", "quarter",
+  "quit", "quiz", "quote", "rabbit", "raccoon", "race", "run", "runway", "rural", "sad", "saddle", "sadness", "symptom", "syrup", "system", "table", "tackle", "tag", "two", "type", "typical", "ugly", "umbrella", "unable",
+   "useless", "usual", "utility", "vacant", "vacuum", "vague", "volume", "vote", "voyage", "wage", "wagon", "wait", "wrist", "write", "wrong", "yard", "year", "yellow", "you",
   "young", "youth", "zebra", "zero", "zone", "zoo"
   ];
+  
   const shuffleArray = (array) => {
     const shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {

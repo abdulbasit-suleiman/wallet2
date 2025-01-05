@@ -1,13 +1,14 @@
-import axios from 'axios';
-
-export default async function handler(req, res) {
+// In your /api/proxy endpoint handler
+app.get('/api/proxy', async (req, res) => {
   const { address } = req.query;
-  const apiUrl = `https://blockstream.info/api/address/${address}`;
-  
   try {
-    const response = await axios.get(apiUrl);
-    res.status(200).json(response.data);
+      if (!address || !isValidBitcoinAddress(address)) {
+          throw new Error('Invalid Bitcoin address');
+      }
+      const result = await callExternalAPI(address); // Make sure to handle external API errors
+      res.json(result);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+      console.error('Error in /api/proxy:', error);
+      res.status(500).json({ error: error.message });
   }
-}
+});
