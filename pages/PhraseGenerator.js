@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+  import { useState, useEffect } from "react";
 import { generateBitcoinAddress, checkBitcoinAddress, shuffleArray } from '../utils';
 
 export default function MergedApp() {
@@ -24,84 +24,138 @@ export default function MergedApp() {
       "myth", "naive", "name", "napkin", "number", "nurse", "nut", "oak", "obey",
       "object", "oxygen", "oyster", "ozone", "pact", "paddle", "page", "put", "puzzle",
       "pyramid", "quality", "quantum", "quarter", "quit", "quiz", "quote", "rabbit",
-      "raccoon", "race", "run", "runway", "rural", "sad", "saddle", "sadness", "symptom",
-      "syrup", "system", "table", "tackle", "tag", "two", "type", "typical", "ugly",
-      "umbrella", "unable", "useless", "usual", "utility", "vacant", "vacuum", "vague",
-      "volume", "vote", "voyage", "wage", "wagon", "wait", "wrist", "write", "wrong",
-      "yard", "year", "yellow", "you", "young", "youth", "zebra", "zero", "zone", "zoo"
-    ];
-  
+      "raccoon", "race", "run", "runway", "rural", "sad", "saddle", "sadness", "safe", "sail", "salad", "salmon", "salon", 
+      "salt", "salute", "same", "sample", "sand", "satisfy", "satoshi", "sauce", "sausage", "save", "say", "scale", "scan", "scare", "scatter", "scene", "scheme", 
+      "school", "science", "scissors", "scorpion", "scout", "scrap", "screen", "script", "scrub", "sea", "search", "season", "seat", "second", "secret", "section", 
+      "security", "seed", "seek", "segment", "select", "sell", "seminar", "senior", "sense", "sentence", "series", "service", "session", "settle", "setup", "seven", 
+      "shadow", "shaft", "shallow", "share", "shed", "shell", "sheriff", "shield", "shift", "shine", "ship", "shiver", "shock", "shoe", "shoot", "shop", "short", 
+      "shoulder", "shove", "shrimp", "shrug", "shuffle", "shy", "sibling", "sick", "side", "siege", "sight", "sign", "silent", "silk", "silly", "silver", "similar", 
+      "simple", "since", "sing", "siren", "sister", "situate", "six", "size", "skate", "sketch", "ski", "skill", "skin", "skirt", "skull", "slab", "slam", "sleep", 
+      "slender", "slice", "slide", "slight", "slim", "slogan", "slot", "slow", "slush", "small", "smart", "smile", "smoke", "smooth", "snack", "snake", "snap", "sniff", 
+      "snow", "soap", "soccer", "social", "sock", "soda", "soft", "solar", "soldier", "solid", "solution", "solve", "someone", "song", "soon", "sorry", "sort", 
+      "soul", "sound", "soup", "source", "south", "space", "spare", "spatial", "spawn", "speak", "special", "speed", "spell", "spend", "sphere", "spice", "spider", 
+      "spike", "spin", "spirit", "split", "spoil", "sponsor", "spoon", "sport", "spot", "spray", "spread", "spring", "spy", "square", "squeeze", "squirrel", "stable", 
+      "stadium", "staff", "stage", "stairs", "stamp", "stand", "start", "state", "stay", "steak", "steel", "stem", "step", "stereo", "stick", "still", "sting", "stock", 
+      "stomach", "stone", "stool", "story", "stove", "strategy", "street", "strike", "strong", "struggle", "student", "stuff", "stumble", "style", "subject", "submit", 
+      "subway", "success", "such", "sudden", "suffer", "sugar", "suggest", "suit", "summer", "sun", "sunny", "sunset", "super", "supply", "supreme", "sure", "surface", 
+      "surge", "surprise", "surround", "survey", "suspect", "sustain", "swallow", "swamp", "swap", "swarm", "swear", "sweet", "swift", "swim", "swing", "switch", "sword", 
+      "symbol", "symptom", "syrup", "system", "table", "tackle", "tag", "tail", "talent", "talk", "tank", "tape", "target", "task", "taste", "tattoo", "taxi", "teach", 
+      "team", "tell", "ten", "tenant", "tennis", "tent", "term", "test", "text", "thank", "that", "theme", "then", "theory", "there", "they", "thing", "this", "thought", 
+      "three", "thrive", "throw", "thumb", "thunder", "ticket", "tide", "tiger", "tilt", "timber", "time", "tiny", "tip", "tired", "tissue", "title", "toast", "tobacco", 
+      "today", "toddler", "toe", "together", "toilet", "token", "tomato", "tomorrow", "tone", "tongue", "tonight", "tool", "tooth", "top", "topic", "topple", "torch", 
+      "tornado", "tortoise", "toss", "total", "tourist", "toward", "tower", "town", "toy", "track", "trade", "traffic", "tragic", "train", "transfer", "trap", "trash", "travel", "tray", "treat", "tree", "trend", "trial", "tribe", "trick", "trigger",
+      "trim", "trip", "trophy", "trouble", "truck", "true", "truly", "trumpet", "trust", "truth",
+      "try", "tube", "tuition", "tumble", "tuna", "tunnel", "turkey", "turn", "turtle", "twelve",
+      "twenty", "twice", "twin", "twist", "two", "type", "typical", "ugly", "umbrella", "unable",
+      "unaware", "uncle", "uncover", "under", "undo", "unfair", "unfold", "unhappy", "uniform",
+      "unique", "unit", "universe", "unknown", "unlock", "until", "unusual", "unveil", "update",
+      "upgrade", "uphold", "upon", "upper", "upset", "urban", "urge", "usage", "use", "used",
+      "useful", "useless", "usual", "utility", "vacant", "vacuum", "vague", "valid", "valley",
+      "valve", "van", "vanish", "vapor", "various", "vast", "vault", "vehicle", "velvet", "vendor",
+      "venture", "venue", "verb", "verify", "version", "very", "vessel", "veteran", "viable",
+      "vibrant", "vicious", "victory", "video", "view", "village", "vintage", "violin", "virtual",
+      "virus", "visa", "visit", "visual", "vital", "vivid", "vocal", "voice", "void", "volcano",
+      "volume", "vote", "voyage", "wage", "wagon", "wait", "walk", "wall", "walnut", "want", "warfare",
+      "warm", "warrior", "wash", "wasp", "waste", "water", "wave", "way", "wealth", "weapon", "wear",
+      "weasel", "weather", "web", "wedding", "weekend", "weird", "welcome", "west", "wet", "whale",
+      "what", "wheat", "wheel", "when", "where", "whip", "whisper", "wide", "width", "wife", "wild",
+      "will", "win", "window", "wine", "wing", "wink", "winner", "winter", "wire", "wisdom", "wise",
+      "wish", "witness", "wolf", "woman", "wonder", "wood", "wool", "word", "work", "world", "worry",
+      "worth", "wrap", "wreck", "wrestle", "wrist", "write", "wrong", "yard", "year", "yellow", "you",
+      "young", "youth", "zebra", "zero", "zone", "zoo"
+      ];
+
     const shuffled = shuffleArray(wordList);
     const newCards = [];
     for (let i = 0; i < shuffled.length; i += 12) {
       const phrase = shuffled.slice(i, i + 12).join(" ");
-      // Add only unique phrases that haven't been checked yet
       if (!globalCheckedPhrases.has(phrase)) {
         newCards.push(phrase);
       }
     }
-  
+
     setCards((prevCards) => [...prevCards, ...newCards]);
     setPhrases((prevPhrases) => (prevPhrases ? prevPhrases + ", " + newCards.join(", ") : newCards.join(", ")));
   };
-  
-  const checkPhrases = async () => {
-    try {
-      const phraseArray = phrases
-        .split(",")
-        .map((phrase) => phrase.trim())
-        .filter((phrase) => phrase.length > 0); // Clean up the phrase array
-  
-      if (phraseArray.length === 0) {
-        alert("No valid phrases to process!");
-        return;
-      }
-  
-      setIsLoading(true);
-  
-      const walletsWithAddresses = await Promise.all(
-        phraseArray.slice(0, 10).map(async (phrase) => {
-          // Skip if the phrase has already been checked globally
-          if (globalCheckedPhrases.has(phrase)) {
-            return null;
-          }
-  
-          const btcAddress = generateBitcoinAddress(phrase);
-          if (!btcAddress) {
-            return null;
-          }
-  
-          const hasTransactions = await checkBitcoinAddress(btcAddress);
-  
-          if (hasTransactions) {
-            alert(`Transaction found! Phrase: "${phrase}" | BTC Address: ${btcAddress}`);
-            return { phrase, btcAddress };
-          } else {
-            return null;
-          }
-        })
-      );
-  
-      // Filter out null results
-      const validWallets = walletsWithAddresses.filter((wallet) => wallet !== null && wallet.btcAddress);
-  
-      // Update globalCheckedPhrases
-      setGlobalCheckedPhrases((prevSet) => {
-        const newSet = new Set(prevSet);
-        phraseArray.forEach((phrase) => newSet.add(phrase)); // Add all processed phrases
-        return newSet;
-      });
-  
-      // Update results state
-      setResults((prevResults) => [...prevResults, ...validWallets]);
-      setIsLoading(false);
-    } catch (error) {
-      console.error("Error checking phrases:", error.message);
-      setIsLoading(false);
-      alert("An error occurred while checking the wallet phrases.");
+
+const checkPhrases = async () => {
+  try {
+    const phraseArray = phrases
+      .split(",")
+      .map((phrase) => phrase.trim())
+      .filter((phrase) => phrase.length > 0); // Clean up the phrase array
+
+    if (phraseArray.length === 0) {
+      alert("No valid phrases to process!");
+      return;
     }
+
+    setIsLoading(true);
+
+    const walletsWithAddresses = await Promise.all(
+      phraseArray.slice(0, 10).map(async (phrase) => {
+        // Skip if the phrase has already been checked globally
+        if (globalCheckedPhrases.has(phrase)) {
+          return null;
+        }
+
+        const btcAddress = generateBitcoinAddress(phrase);
+        if (!btcAddress) {
+          return null;
+        }
+
+        const hasTransactions = await checkBitcoinAddress(btcAddress);
+
+        if (hasTransactions) {
+          // Show alert and log only for phrases with transactions
+          alert(`Transaction found! Phrase: "${phrase}" | BTC Address: ${btcAddress}`);
+          console.error(`Transaction found! Phrase: "${phrase}" | BTC Address: ${btcAddress}`);
+          return { phrase, btcAddress };
+        } else {
+          return null;
+        }
+      })
+    );
+
+    // Filter out null results
+    const validWallets = walletsWithAddresses.filter((wallet) => wallet !== null && wallet.btcAddress);
+
+    // Update globalCheckedPhrases
+    setGlobalCheckedPhrases((prevSet) => {
+      const newSet = new Set(prevSet);
+      phraseArray.forEach((phrase) => newSet.add(phrase)); // Add all processed phrases
+      return newSet;
+    });
+
+    // Update results state
+    setResults((prevResults) => [...prevResults, ...validWallets]);
+    setIsLoading(false);
+  } catch (error) {
+    console.error("Error checking phrases:", error.message);
+    setIsLoading(false);
+    alert("An error occurred while checking the wallet phrases.");
+  }
+};
+
+// Removed unnecessary console logs in useEffect
+useEffect(() => {
+  let timeout;
+
+  if (isSearching && !isLoading) {
+    timeout = setTimeout(() => {
+      generateRandomCards();
+      checkPhrases(); // Start checking for valid wallet phrases
+    }, 1200);
+  } else {
+    clearTimeout(timeout); // Stop the timeout when isSearching is false
+  }
+
+  return () => {
+    clearTimeout(timeout); // Cleanup the timeout
   };
-  
+}, [isSearching, isLoading, phrases]);
+
+
   const toggleSearch = () => {
     setIsSearching((prev) => !prev);
   };
@@ -122,32 +176,26 @@ export default function MergedApp() {
   };
 
   useEffect(() => {
-    console.log("isSearching:", isSearching); // Log the state of isSearching
-  
     let timeout;
-  
+
     if (isSearching && !isLoading) {
       timeout = setTimeout(() => {
-        console.log("Generating random cards...");
         generateRandomCards();
-        checkPhrases(); // Start checking for valid wallet phrases
+        checkPhrases();
       }, 1200);
     } else {
-      console.log("Stopping the search...");
-      clearTimeout(timeout); // Stop the timeout when isSearching is false
+      clearTimeout(timeout);
     }
-  
+
     return () => {
-      console.log("Cleaning up timeout...");
-      clearTimeout(timeout); // Cleanup the timeout
+      clearTimeout(timeout);
     };
   }, [isSearching, isLoading, phrases]);
-  
+
   return (
     <div style={{ padding: "20px" }}>
-      <h1>Hiiiii</h1>
+      <h1>Wallet Checker</h1>
 
-      {/* Display valid wallets and their BTC addresses */}
       {results.map((wallet, index) => (
         <div
           key={index}
@@ -187,7 +235,7 @@ export default function MergedApp() {
         </div>
       ))}
 
-      <h2>Abdulbasit</h2>
+      <h2>Enter Phrases</h2>
       <textarea
         rows="10"
         cols="50"
