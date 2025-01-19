@@ -123,10 +123,10 @@ export default function Home() {
 
   return (
     <div style={{ padding: "20px", maxWidth: "600px", margin: "auto" }}>
-      <h1>Solana Transaction Checker</h1>
+      <h1>so  Checker</h1>
 
       <div>
-        <label htmlFor="address">Enter Solana Address:</label>
+        <label htmlFor="address">Enter so add:</label>
         <input
           type="text"
           id="address"
