@@ -7,7 +7,7 @@ export function shuffleArray(array) {
     return shuffled;
   }
 
-  export function generatePhrases(wordList, phraseLength = 24) {
+  export function generatePhrases(wordList, phraseLength = 12) {
     const phrases = [];
     for (let i = 0; i < 1000000; i++) { // Generate multiple phrases
       const shuffled = shuffleArray(wordList);

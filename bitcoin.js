@@ -5,21 +5,21 @@ import crypto from 'crypto';
 // Create ECPair factory
 const ECPair = bitcoin.ECPair
 export function generateBitcoinAddress(phrase) {
-    try {
+  try {
       const seed = crypto.createHash('sha256').update(phrase).digest();
-  
+
       // Generate the key pair from the seed
       const keyPair = ECPair.fromPrivateKey(seed);
-  
-      // Generate a bech32 SegWit Bitcoin address
-      const { address } = bitcoin.payments.p2wpkh({ pubkey: keyPair.publicKey });
-  
-      return address;  // This will generate a bc1 address
-    } catch (error) {
+
+      // Generate a P2PKH Bitcoin address
+      const { address } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey });
+
+      return address;  // This will generate a legacy address starting with "1"
+  } catch (error) {
       console.error("Error generating Bitcoin address:", error.message);
       throw new Error("Failed to generate Bitcoin address.");
-    }
   }
+}
   
   export async function checkBitcoinAddress(address) {
     const url = `https://blockstream.info/api/address/${address}`;
