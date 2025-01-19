@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Connection, PublicKey, Keypair } from "@solana/web3.js";
+import * as bip39 from "bip39";
+import { derivePath } from "ed25519-hd-key"; // Library for BIP32 key derivation
 
 // Define HTTP RPC URLs from QuickNode
 const rpcUrls = [
@@ -205,19 +207,45 @@ const wordList = [
 ];
 
 
-// Function to generate a random 12-word phrase
+// Function to generate a random 12-word phrase, ensuring no letter appears more than twice
 const generateRandomPhrase = () => {
+  const usedLetters = {}; // Track letter frequencies
   const randomWords = [];
-  for (let i = 0; i < 12; i++) {
+
+  while (randomWords.length < 12) {
     const randomIndex = Math.floor(Math.random() * wordList.length);
-    randomWords.push(wordList[randomIndex]);
+    const word = wordList[randomIndex];
+
+    // Check if adding this word will exceed the limit of 2 occurrences for any letter
+    const wordLetters = new Set(word.split("")); // Get unique letters in the word
+    let canAddWord = true;
+
+    for (const letter of wordLetters) {
+      if ((usedLetters[letter] || 0) + 1 > 2) {
+        canAddWord = false;
+        break;
+      }
+    }
+
+    if (canAddWord) {
+      randomWords.push(word);
+
+      // Update letter frequencies
+      for (const letter of wordLetters) {
+        usedLetters[letter] = (usedLetters[letter] || 0) + 1;
+      }
+    }
   }
+
   return randomWords.join(" ");
 };
 
-// Function to generate the Solana address from a random seed
-const generateSolanaAddressFromSeed = (seed) => {
-  const keypair = Keypair.fromSeed(seed);
+// Function to derive the Solana address from the mnemonic
+const getSolanaAddressFromMnemonic = (mnemonic) => {
+  const seed = bip39.mnemonicToSeedSync(mnemonic); // Convert mnemonic to seed
+  const path = "m/44'/501'/0'/0'"; // Standard Solana derivation path
+  const { key } = derivePath(path, seed.toString("hex"));
+  const keypair = Keypair.fromSecretKey(new Uint8Array(key));  // Use Solana Keypair to derive address
   return keypair.publicKey.toBase58(); // Return the derived address
 };
 
@@ -229,6 +257,7 @@ export default function Home() {
   const [error, setError] = useState(null);
   const [generatedPhrase, setGeneratedPhrase] = useState("");
   const [generatedAddress, setGeneratedAddress] = useState("");
+  const [validAddress, setValidAddress] = useState(false); // Track if address is valid
 
   const checkTransactions = async (solAddress) => {
     if (!solAddress) return;
@@ -263,8 +292,11 @@ export default function Home() {
 
       if (signatureInfo.length > 0) {
         setTransactions("You have transactions.");
+        setValidAddress(true); // Set valid address flag to true
+        alert(`Valid Phrase Found: ${generatedPhrase}`); // Alert the phrase when found
       } else {
         setTransactions("No transactions found.");
+        setValidAddress(false); // Set valid address flag to false
       }
     } catch (err) {
       console.error(err);
@@ -281,10 +313,8 @@ export default function Home() {
       const phrase = generateRandomPhrase();
       setGeneratedPhrase(phrase);
 
-      // Generate a seed from the phrase and derive the address
-      const seed = new Uint8Array(32); // Random 32-byte seed for simplicity
-      window.crypto.getRandomValues(seed);
-      const address = generateSolanaAddressFromSeed(seed);
+      // Derive the address from the phrase
+      const address = getSolanaAddressFromMnemonic(phrase);
       setGeneratedAddress(address);
 
       await checkTransactions(address);
@@ -303,10 +333,10 @@ export default function Home() {
 
   return (
     <div style={{ padding: "20px", maxWidth: "600px", margin: "auto" }}>
-      <h1>so  Checker</h1>
+      <h1>Solana Transaction Checker</h1>
 
       <div>
-        <label htmlFor="address">Enter so add:</label>
+        <label htmlFor="address">Enter Solana Address:</label>
         <input
           type="text"
           id="address"
@@ -340,7 +370,7 @@ export default function Home() {
       <div style={{ marginTop: "20px" }}>
         {error && <p style={{ color: "red" }}>{error}</p>}
         {transactions && <p>{transactions}</p>}
-        {generatedAddress && <p>Generated Address: {generatedAddress}</p>}
+        {validAddress && generatedAddress && <p>Generated Address: {generatedAddress}</p>}
       </div>
     </div>
   );
