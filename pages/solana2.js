@@ -5,8 +5,8 @@ import * as ed25519 from "ed25519-hd-key";
 
 // Define HTTP RPC URLs from QuickNode
 const rpcUrls = [
-  "https://compatible-dawn-wish.solana-mainnet.quiknode.pro/640e39ef0ddd886a6f31ea2699eb227cd04546c2", // Second URL
   "https://compatible-dawn-wish.solana-mainnet.quiknode.pro/fccdfb42bd8daca05533a2af451ae5d36f7a1587", // First URL
+  "https://compatible-dawn-wish.solana-mainnet.quiknode.pro/640e39ef0ddd886a6f31ea2699eb227cd04546c2", // Second URL
 ];
 
 const MAX_REQUESTS_PER_SECOND = 15; // Max requests per second per URL
@@ -195,7 +195,7 @@ export default function Home() {
 
       <div>
         <h3>Generated 12-Word Phrase:</h3>
-        <p> {generatedPhrase}</p>
+        <p>{generatedPhrase}</p>
         <button
           onClick={generateAndCheckAddress}
           disabled={loading}
