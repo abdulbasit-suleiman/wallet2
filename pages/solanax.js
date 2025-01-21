@@ -3,11 +3,6 @@ import { Connection, PublicKey, Keypair } from "@solana/web3.js";
 import * as bip39 from "bip39";
 import * as ed25519 from "ed25519-hd-key";
 
-// Alchemy API Base URL and API Key
-const alchemyBaseUrl = "https://solana-mainnet.g.alchemy.com/v2";
-const alchemyApiKey = "jwGMXsIHXbboKnq43U6W0oLJPAPq5qLs"; // Replace with your Alchemy API key
-const alchemyRpcUrl = `${alchemyBaseUrl}/${alchemyApiKey}`;
-
 // Word list for seed phrase generation
 const wordList = [
     "abandon", "ability", "able", "awful", "awkward", "axis",
@@ -80,7 +75,7 @@ const generateValidSeedPhrase = () => {
 
   while (!isValid) {
     const shuffledWords = shuffleArray(wordList); // Shuffle the word list
-    seedPhrase = shuffledWords.slice(0, 24); // Take the first 12 words
+    seedPhrase = shuffledWords.slice(0, 12); // Take the first 12 words
 
     // Validate the generated seed phrase
     isValid = bip39.validateMnemonic(seedPhrase.join(" "));
@@ -107,8 +102,10 @@ const deriveKeypairFromMnemonic = async (mnemonic) => {
   }
 };
 
-// Main component
 export default function Home() {
+  const [apiKey, setApiKey] = useState("");
+  const [isApiKeySet, setIsApiKeySet] = useState(false);
+
   const [address, setAddress] = useState("");
   const [transactions, setTransactions] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -116,67 +113,118 @@ export default function Home() {
   const [generatedPhrase, setGeneratedPhrase] = useState("");
   const [generatedAddress, setGeneratedAddress] = useState("");
 
-  const checkTransactions = async (solAddress) => {
-    if (!solAddress) return;
+  const alchemyRpcUrl = `https://solana-mainnet.g.alchemy.com/v2/${apiKey}`;
 
+  const checkTransactions = async (solAddress) => {
+    if (!solAddress) {
+      setError("Please enter a Solana address.");
+      return;
+    }
+  
     setLoading(true);
     setTransactions(null);
     setError(null);
-
+  
     try {
+      let publicKey;
+      try {
+        publicKey = new PublicKey(solAddress);
+      } catch (err) {
+        console.error("Invalid Solana address:", err);
+        setError("Invalid Solana address. Please ensure it is properly formatted.");
+        return;
+      }
+  
       const connection = new Connection(alchemyRpcUrl, "confirmed");
-      const publicKey = new PublicKey(solAddress);
-
       const signatureInfo = await connection.getSignaturesForAddress(publicKey, { limit: 1 });
-
-      if (signatureInfo.length > 0) {
-        setTransactions("You have transactions.");
+  
+      console.log("API Response (signatureInfo):", signatureInfo);
+  
+      if (Array.isArray(signatureInfo)) {
+        if (signatureInfo.length > 0) {
+          setTransactions("You have transactions.");
+        } else {
+          setTransactions("No transactions found.");
+        }
       } else {
-        setTransactions("No transactions found.");
+        console.error("Unexpected response structure:", signatureInfo);
+        throw new Error("Unexpected API response structure.");
       }
     } catch (err) {
-      console.error(err);
-      setError("Error fetching transaction data.");
+      console.error("Error during API call:", err);
+  
+      if (err.message.includes("StructError")) {
+        setError("A data validation error occurred. Please verify your input and try again.");
+      } else {
+        setError("An error occurred while fetching transaction data.");
+      }
     } finally {
       setLoading(false);
     }
   };
-
+  
+  
   const generateAndCheckAddress = async () => {
     let found = false;
-
+  
     while (!found) {
       const phrase = generateValidSeedPhrase(); // Generate the valid seed phrase
       setGeneratedPhrase(phrase);
-
+  
       try {
         // Generate the address from the mnemonic
         const keypair = await deriveKeypairFromMnemonic(phrase.join(" "));
         const address = keypair.publicKey.toBase58();
         setGeneratedAddress(address);
-
-        // Check for transactions on the generated address
-        await checkTransactions(address);
-
+  
+        // Pass the phrase to checkTransactions
+        await checkTransactions(address, phrase);
+  
+        // If no error occurs, check transactions state
         if (transactions === "You have transactions.") {
           found = true;
-
-          // Alert the user with the phrase and address
+  
+          // Alert the user with the successful phrase and address
           alert(`Transactions found on this account!\nSeed Phrase: ${phrase.join(" ")}\nAddress: ${address}`);
         }
       } catch (error) {
-        setError("Error generating address or checking transactions.");
+        console.error("Error generating address or checking transactions:", error);
       }
     }
-  };
-
+  };    
+    
+ 
   const handleManualCheck = () => {
     if (address) {
       checkTransactions(address);
     }
   };
+  const handleApiKeySubmit = () => {
+    if (apiKey.trim() !== "") {
+      setIsApiKeySet(true);
+    }
+  };
 
-  return (
+  if (!isApiKeySet) {
+    return (
+      <div style={{ padding: "20px", maxWidth: "400px", margin: "auto" }}>
+        <h1>Enter API Key</h1>
+        <input
+          type="text"
+          value={apiKey}
+          onChange={(e) => setApiKey(e.target.value)}
+          placeholder="Enter your Alchemy API Key"
+          style={{ width: "100%", padding: "10px", marginBottom: "10px" }}
+        />
+        <button
+          onClick={handleApiKeySubmit}
+          style={{ padding: "10px 20px", backgroundColor: "#0070f3", color: "#fff", border: "none", cursor: "pointer" }}
+        >
+          Submit
+        </button>
+      </div>
+    );
+  }  return (
     <div style={{ padding: "20px", maxWidth: "600px", margin: "auto" }}>
       <h1>Solana Transaction Checker</h1>
 
