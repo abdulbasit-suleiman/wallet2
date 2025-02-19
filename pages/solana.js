@@ -203,6 +203,7 @@ const wordList = [
 ];
 
 
+
 // Function to shuffle the array
 const shuffleArray = (array) => {
   const shuffled = [...array];
